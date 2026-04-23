@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS tasks (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    course VARCHAR(100) NOT NULL,
+    due_date DATE NOT NULL,
+    status VARCHAR(30) DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
