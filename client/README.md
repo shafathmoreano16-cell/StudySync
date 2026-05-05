@@ -1,16 +1,61 @@
-# React + Vite
+# StudySync
+StudySync is a full-stack student task tracker web app that helps students manage assignments, organize tasks by status and course, keep track of completed work, and stay motivated with random quotes.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Live App
+Frontend: https://studysync-client.onrender.com
+Backend: https://studysync-api-hqj3.onrender.com
 
-Currently, two official plugins are available:
+## Tech Stack
+- React
+- Node.js
+- Express
+- PostgreSQL
+- Render
+-External Quote API
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Feautures
+- User registration
+- User login/logour
+- Add tasks
+- Edit tasks
+- Delete task
+- Filter by status
+- Filter by course
+- Seperate completed tasks section
+- Random quote generator with New quote button
+- Per-user task storage so users only see their own task
 
-## React Compiler
+## Setup Instructions
+1. Clone the Repo
+2. Open the project folder
+3. Install dependencies in both 'client' and 'server'
+4. Add a '.env' file in 'server' with 'DATABASE_URL'
+5. Run backend with 'node server.js'
+6. Run frontend with 'npm run dev'
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Reflection
+ I chose React for the frontend because it alloed me to break the application into reusable components such as the login page, dashboard, task form, task list, filter, and qupte box. I use Node.js and Express for the backend because they are well suited for building REST API routes. PostgreSQL was used for persistent storage so users and tasks could be saved in real database.. I also deployed both frontend and backend with Render so the application could run live online.
 
-## Expanding the ESLint configuration
+ One of the biggest challenges I had was connecting the frontend, backend, and database correctly so CRUD operations worked both locally and after deployment. Another challenge was updating the app so each user only saw their own tasks instead of shared tasks.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+ This project helped me understand how to build a full stack application using React, Express, and PostgreSQL. I learned how to organize code into reusable frontend components and backend routes/controllers, how to implement authentication, how to onnect external API, and how to deploy a complete application to Render.
+
+ I believe if there was more time I would improve the movile styling, add tasks sorting by due date, add possibly better validation and error messages, and expand the dashboard with more student productivity tools.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
