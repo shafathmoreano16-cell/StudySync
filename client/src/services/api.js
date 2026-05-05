@@ -1,7 +1,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-export async function getTasks() {
-  const response = await fetch(`${API_BASE_URL}/api/tasks`);
+export async function getTasks(userId) {
+  const response = await fetch(`${API_BASE_URL}/api/tasks?userId=${userId}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch tasks");
@@ -46,10 +46,13 @@ export async function updateTask(id, taskData) {
   return data;
 }
 
-export async function deleteTask(id) {
-  const response = await fetch(`${API_BASE_URL}/api/tasks/${id}`, {
-    method: "DELETE",
-  });
+export async function deleteTask(id, userId) {
+  const response = await fetch(
+    `${API_BASE_URL}/api/tasks/${id}?userId=${userId}`,
+    {
+      method: "DELETE",
+    }
+  );
 
   const data = await response.json();
 

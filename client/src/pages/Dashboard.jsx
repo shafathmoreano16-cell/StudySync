@@ -33,7 +33,7 @@ function Dashboard({ currentUser, onLogout }) {
 
   async function loadTasks() {
     try {
-      const data = await getTasks();
+      const data = await getTasks(currentUser.id);
       setTasks(data);
     } catch (error) {
       console.error("Error loading tasks:", error);
@@ -72,10 +72,15 @@ function Dashboard({ currentUser, onLogout }) {
     event.preventDefault();
 
     try {
+      const payload = {
+        ...formData,
+        userId: currentUser.id,
+      };
+
       if (editingTaskId) {
-        await updateTask(editingTaskId, formData);
+        await updateTask(editingTaskId, payload);
       } else {
-        await createTask(formData);
+        await createTask(payload);
       }
 
       setFormData({
@@ -95,7 +100,7 @@ function Dashboard({ currentUser, onLogout }) {
 
   async function handleDelete(id) {
     try {
-      await deleteTask(id);
+      await deleteTask(id, currentUser.id);
       loadTasks();
     } catch (error) {
       console.error("Error deleting task:", error);
