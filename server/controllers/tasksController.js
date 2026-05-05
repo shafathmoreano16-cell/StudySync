@@ -1,8 +1,18 @@
 const pool = require("../config/db");
 
 async function getAllTasks(req, res) {
+  const { userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({ error: "userId is required" });
+  }
+
   try {
-    const result = await pool.query("SELECT * FROM tasks ORDER BY id DESC");
+    const result = await pool.query(
+      "SELECT * FROM tasks WHERE user_id = $1 ORDER BY id DESC",
+      [userId]
+    );
+
     res.status(200).json(result.rows);
   } catch (error) {
     console.error("GET /api/tasks error:", error);
@@ -11,20 +21,20 @@ async function getAllTasks(req, res) {
 }
 
 async function createTask(req, res) {
-  const { title, course, due_date, status } = req.body;
+  const { title, course, due_date, status, userId } = req.body;
 
-  if (!title || !course || !due_date) {
+  if (!title || !course || !due_date || !userId) {
     return res.status(400).json({
-      error: "Title, course, and due date are required",
+      error: "Title, course, due date, and userId are required",
     });
   }
 
   try {
     const result = await pool.query(
-      `INSERT INTO tasks (title, course, due_date, status)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO tasks (title, course, due_date, status, user_id)
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
-      [title, course, due_date, status || "Pending"]
+      [title, course, due_date, status || "Pending", userId]
     );
 
     res.status(201).json(result.rows[0]);
@@ -36,11 +46,11 @@ async function createTask(req, res) {
 
 async function updateTask(req, res) {
   const { id } = req.params;
-  const { title, course, due_date, status } = req.body;
+  const { title, course, due_date, status, userId } = req.body;
 
-  if (!title || !course || !due_date || !status) {
+  if (!title || !course || !due_date || !status || !userId) {
     return res.status(400).json({
-      error: "Title, course, due date, and status are required",
+      error: "Title, course, due date, status, and userId are required",
     });
   }
 
@@ -51,9 +61,9 @@ async function updateTask(req, res) {
            course = $2,
            due_date = $3,
            status = $4
-       WHERE id = $5
+       WHERE id = $5 AND user_id = $6
        RETURNING *`,
-      [title, course, due_date, status, id]
+      [title, course, due_date, status, id, userId]
     );
 
     if (result.rows.length === 0) {
@@ -69,11 +79,16 @@ async function updateTask(req, res) {
 
 async function deleteTask(req, res) {
   const { id } = req.params;
+  const { userId } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({ error: "userId is required" });
+  }
 
   try {
     const result = await pool.query(
-      "DELETE FROM tasks WHERE id = $1 RETURNING *",
-      [id]
+      "DELETE FROM tasks WHERE id = $1 AND user_id = $2 RETURNING *",
+      [id, userId]
     );
 
     if (result.rows.length === 0) {
